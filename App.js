@@ -6,6 +6,8 @@ import { createBottomTabNavigator, createBottomTabScreen } from '@react-navigati
 import RecentExpensesScreen from './screens/RecentExpensesScreen';
 import AllExpensesScreen from './screens/AllExpensesScreen';
 import IconButton from './components/IconButton';
+import { Provider } from 'react-redux';
+import store from './store/store';
 
 const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator({
@@ -44,9 +46,9 @@ const BottomTab = createBottomTabNavigator({
 const Navigation = createStaticNavigation(BottomTab);
 
 export default function App() {
-  return <View style={styles.container}>
+  return <Provider store={store}>
     <Navigation />
-  </View>
+  </Provider>
 }
 
 const styles = StyleSheet.create({
