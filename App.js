@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Modal } from 'react-native';
 import { createStaticNavigation, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator, createBottomTabScreen } from '@react-navigation/bottom-tabs';
@@ -28,7 +28,7 @@ const BottomTab = createBottomTabNavigator({
           return <IconButton icon="hourglass" color="white" />
         },
         tabBarActiveBackgroundColor: '#F0BA2B'
-      }
+      },
     }),
     AllExpenses: createBottomTabScreen({
       screen: AllExpensesScreen,
@@ -39,15 +39,15 @@ const BottomTab = createBottomTabNavigator({
         },
         tabBarActiveBackgroundColor: '#F0BA2B'
       }
-    })
-  }
+    }),
+  },
 });
 
 const Navigation = createStaticNavigation(BottomTab);
 
 export default function App() {
   return <Provider store={store}>
-    <Navigation />
+    <Navigation  />
   </Provider>
 }
 

@@ -1,17 +1,19 @@
 import { useLayoutEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Modal } from 'react-native';
 import IconButton from '../components/IconButton';
 import { useNavigation } from '@react-navigation/native';
+import { useState } from 'react';
 
 function RecentExpensesScreen() {
+    const [modalVisible, setModalVisible] = useState(false);
 
     const navigation = useNavigation();
     useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () => {
                 return (
-                    <View style={styles.headerRightButton}>
-                        <IconButton icon="add" color="white" />
+                    <View style={styles.headerRightButton}>                   
+                        <IconButton icon="add" color="white"/>
                     </View>
                 )
             },
@@ -21,11 +23,18 @@ function RecentExpensesScreen() {
             headerTintColor: 'white',  
         })
     }, []);
+   
 
     return (
-        <View style={styles.container}>
-            <Text>Recent Expenses</Text>
-        </View>
+        <>
+            <View style={styles.container}>
+                <Text>Recent Expenses</Text>
+            </View>
+
+            <Modal visible={modalVisible}>
+                
+            </Modal>
+        </>
     );
 }
 
