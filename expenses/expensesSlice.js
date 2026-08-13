@@ -11,7 +11,7 @@ export const expensesSlice = createSlice({
                 id: action.payload.id,
                 name: action.payload.name,
                 value: action.payload.value,
-                date: Date.now()
+                date: action.payload.date
             })
         }
     }

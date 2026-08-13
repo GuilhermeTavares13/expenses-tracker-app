@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Modal } from 'react-native';
 import IconButton from '../components/IconButton';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
+import AddModal from './AddModal';
 
 function RecentExpensesScreen() {
     const [modalVisible, setModalVisible] = useState(false);
@@ -13,7 +14,7 @@ function RecentExpensesScreen() {
             headerRight: () => {
                 return (
                     <View style={styles.headerRightButton}>                   
-                        <IconButton icon="add" color="white"/>
+                        <IconButton icon="add" color="white" onPress={() => setModalVisible(true)}/>
                     </View>
                 )
             },
@@ -31,8 +32,8 @@ function RecentExpensesScreen() {
                 <Text>Recent Expenses</Text>
             </View>
 
-            <Modal visible={modalVisible}>
-                
+            <Modal visible={modalVisible} >
+                <AddModal onModal={setModalVisible}/>
             </Modal>
         </>
     );
