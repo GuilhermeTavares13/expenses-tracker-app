@@ -3,7 +3,6 @@ import { addExpenses } from "../expenses/expensesSlice";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 
-
 let today = new Date();
 let dd = String(today.getDate()).padStart(2, '0');
 let mm = String(today.getMonth() + 1).padStart(2, '0'); 
@@ -11,20 +10,23 @@ let yyyy = today.getFullYear();
 
 today = mm + '/' + dd + '/' + yyyy;
 
+
 function AddModal({ onModal }) {
     const [name, setName] = useState('');
     const [expenseValue, setExpenseValue] = useState('');
-
     const dispatch = useDispatch();
-    
+
     function storeExpense() {
         dispatch(
             addExpenses(
                 {
-                    
+                    name: name,
+                    value: expenseValue,
+                    date: today
                 }
             )
         );
+        onModal(false);
     }
 
     return(
