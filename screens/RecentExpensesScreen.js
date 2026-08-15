@@ -7,18 +7,17 @@ import AddModal from './AddModal';
 import { useSelector, useDispatch } from "react-redux";
 import ListItem from '../components/ListItem';
 import ResultContainer from '../components/ResultContainer';
-import { recentTotal } from '../expenses/expensesSlice';
+import { getRecentExpensesTotal } from '../utils/utilities';
 
 function RecentExpensesScreen() {
     const [modalVisible, setModalVisible] = useState(false);
     const expenses = useSelector((state) => state.expenses.expenses);
 
-    const dispatch = useDispatch();
-    dispatch(recentTotal());
-
-    console.log(recentTotalValue);
+    const recentExpenses = []
 
     const navigation = useNavigation();
+    const totalRecentExpenses = getRecentExpensesTotal(expenses);
+   
     useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () => {
@@ -38,7 +37,7 @@ function RecentExpensesScreen() {
     return (
         <>  
             <View style={styles.container}>
-                <ResultContainer title="Last 7 days" value={recentTotalValue} />
+                <ResultContainer title="Last 7 days" value={totalRecentExpenses} />
                 <FlatList
                     data={expenses}
                     renderItem={({item}) => 

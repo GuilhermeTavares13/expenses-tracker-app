@@ -5,7 +5,7 @@ export const expensesSlice = createSlice({
     name: 'expenses',
     initialState: {
         expenses: [],
-        recentTotal: 0
+        recentExpenses: []
     },
     reducers: {
         addExpenses: (state, action) => {
@@ -16,25 +16,14 @@ export const expensesSlice = createSlice({
                 date: action.payload.date
             })
         },
-        recentTotal: (state, action) => {
-            const allExpenses = state.expenses;
-
-            if (allExpenses == undefined) {
-                state.recentTotal = 0;
-            } 
-
-            const filteredExpenses = allExpenses.filter((expense) => expense.date > Date.now() - 7);
-
-            let sum = 0;
-
-            filteredExpenses.forEach(element => {
-                sum += element.value || 0;
+        getRecentExpenses: (state) => {
+            state.recentExpenses = [];
+            state.expenses.forEach(element => {
+                recentExpenses.push(element);
             });
-
-            state.recentTotal = sum;
         }
     }
 });
 
-export const { addExpenses, recentTotal } = expensesSlice.actions;
+export const { addExpenses } = expensesSlice.actions;
 export default expensesSlice.reducer;
