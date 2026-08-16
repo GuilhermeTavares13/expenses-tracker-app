@@ -2,31 +2,43 @@ import { View, Text, StyleSheet, Pressable, TextInput, Vibration } from "react-n
 import { addExpenses } from "../expenses/expensesSlice";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-
-let today = new Date();
-let dd = String(today.getDate()).padStart(2, '0');
-let mm = String(today.getMonth() + 1).padStart(2, '0'); 
-let yyyy = today.getFullYear();
-
-today = mm + '/' + dd + '/' + yyyy;
-
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import moment from "moment";
 
 function AddModal({ onModal }) {
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [name, setName] = useState('');
     const [expenseValue, setExpenseValue] = useState('');
+    const [pickedDate, setPickedDate] = useState(Date.now());
     const dispatch = useDispatch();
 
     function storeExpense() {
+        console.log(pickedDate);
         dispatch(
             addExpenses(
                 {
                     name: name,
                     value: expenseValue,
-                    date: today
+                    date: pickedDate
                 }
             )
         );
         onModal(false);
+    }
+
+    const showDatePicker = () => {
+        setDatePickerVisibility(true);
+    };
+
+    const hideDatePicker = () => {
+        setDatePickerVisibility(false);
+    };
+
+    const handleConfirmDate = (date) => {
+        console.log(date);
+        console.log(moment(date).valueOf());
+        setPickedDate(moment(date).valueOf());
+        hideDatePicker();
     }
 
     return(
@@ -45,8 +57,16 @@ function AddModal({ onModal }) {
                         <TextInput style={styles.textInput} inputMode="decimal" onChangeText={(text) => setExpenseValue(text)}/>
                     </View>
                     <View style={styles.expense}>
-                        <Text style={styles.text}>Date:</Text>
-                        <TextInput style={styles.textInput} value={today} editable={false} />
+                        <View style={styles.dateContainer}>
+                            <Text style={styles.text}>Date:</Text>
+                            <View style={styles.dateBtn}>
+                                <Pressable onPress={() => setDatePickerVisibility(true)}>
+                                    <Text style={styles.dateBtnText}>{moment(pickedDate).format('L')}</Text>
+                                </Pressable>
+                            </View>
+                        </View>
+                       
+                        <DateTimePickerModal isVisible={isDatePickerVisible} mode="date" onConfirm={handleConfirmDate} onCancel={hideDatePicker}/>
                     </View>
                 </View> 
             </View>
@@ -115,5 +135,21 @@ const styles = StyleSheet.create({
     },
     expenseContainer: {
         alignItems: 'center'
+    },
+    dateContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1
+    },
+    dateBtn: {
+        elevation: 5,
+        overflow: 'hidden',
+        padding: 10,
+        backgroundColor: '#3518b7',
+        margin: 10
+    },
+    dateBtnText: {
+        color: 'white'
     }
 });

@@ -9,18 +9,14 @@ export const expensesSlice = createSlice({
     },
     reducers: {
         addExpenses: (state, action) => {
-            state.expenses.push({
+            const aExpense = {
                 id: Crypto.randomUUID(),
                 name: action.payload.name,
                 value: action.payload.value,
                 date: action.payload.date
-            })
-        },
-        getRecentExpenses: (state) => {
-            state.recentExpenses = [];
-            state.expenses.forEach(element => {
-                recentExpenses.push(element);
-            });
+            }
+
+            state.expenses.push(aExpense);
         }
     }
 });
