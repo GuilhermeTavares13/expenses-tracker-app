@@ -1,22 +1,19 @@
-import { useLayoutEffect } from 'react';
+import {  useLayoutEffect } from 'react';
 import { View, Text, StyleSheet, Modal, FlatList } from 'react-native';
 import IconButton from '../components/IconButton';
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AddModal from './AddModal';
-import { useSelector, useDispatch } from "react-redux";
 import ListItem from '../components/ListItem';
 import ResultContainer from '../components/ResultContainer';
-import { getRecentExpensesTotal } from '../utils/utilities';
+import { getRecentExpenses, getRecentExpensesTotal } from '../utils/utilities';
 
 function RecentExpensesScreen() {
     const [modalVisible, setModalVisible] = useState(false);
-    const expenses = useSelector((state) => state.expenses.expenses);
-
-    const recentExpenses = []
-
+    const recentExpenses = getRecentExpenses();
+    const totalRecentExpenses = getRecentExpensesTotal(recentExpenses);
+    
     const navigation = useNavigation();
-    const totalRecentExpenses = getRecentExpensesTotal(expenses);
    
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -39,7 +36,7 @@ function RecentExpensesScreen() {
             <View style={styles.container}>
                 <ResultContainer title="Last 7 days" value={totalRecentExpenses} />
                 <FlatList
-                    data={expenses}
+                    data={recentExpenses}
                     renderItem={({item}) => 
                         <ListItem name={item.name} value={item.value} date={item.date} />
                     }
