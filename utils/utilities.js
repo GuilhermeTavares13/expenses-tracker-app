@@ -1,8 +1,7 @@
 import { useSelector } from "react-redux";
 import moment from "moment";
 
-
-export function getRecentExpensesTotal(expenses) {
+export function getExpensesTotal(expenses) {
     let sum = 0;
 
     expenses.forEach(element => {
@@ -11,6 +10,7 @@ export function getRecentExpensesTotal(expenses) {
 
     return sum;
 }
+
 
 export function getRecentExpenses() {
     const expenses = useSelector((state) => state.expenses.expenses);
@@ -31,4 +31,20 @@ export function getRecentExpenses() {
     })
     
     return recentExpenses;
+}
+
+export function getExpenses() {
+    const expenses = useSelector((state) => state.expenses.expenses);
+    const formattedExpenses = [];
+
+    expenses.forEach((expense) => {
+        formattedExpenses.push({
+            id: expense.id,
+            name: expense.name,
+            value: expense.value,
+            date: moment(expense.date).format('L')
+        })
+    })
+
+    return formattedExpenses;
 }

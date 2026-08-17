@@ -1,17 +1,16 @@
-import {  useLayoutEffect } from 'react';
-import { View, Text, StyleSheet, Modal, FlatList } from 'react-native';
+import { View, StyleSheet, Modal, FlatList } from 'react-native';
 import IconButton from '../components/IconButton';
 import { useNavigation } from '@react-navigation/native';
-import { useState, useEffect } from 'react';
+import { useState, useLayoutEffect } from 'react';
 import AddModal from './AddModal';
 import ListItem from '../components/ListItem';
 import ResultContainer from '../components/ResultContainer';
-import { getRecentExpenses, getRecentExpensesTotal } from '../utils/utilities';
+import { getRecentExpenses, getExpensesTotal } from '../utils/utilities';
 
 function RecentExpensesScreen() {
     const [modalVisible, setModalVisible] = useState(false);
     const recentExpenses = getRecentExpenses();
-    const totalRecentExpenses = getRecentExpensesTotal(recentExpenses);
+    const totalRecentExpenses = getExpensesTotal(recentExpenses);
     
     const navigation = useNavigation();
    
@@ -38,7 +37,7 @@ function RecentExpensesScreen() {
                 <FlatList
                     data={recentExpenses}
                     renderItem={({item}) => 
-                        <ListItem name={item.name} value={item.value} date={item.date} />
+                        <ListItem id={item.id} name={item.name} value={item.value} date={item.date} />
                     }
                     keyExtractor={item => item.id}
                 />
