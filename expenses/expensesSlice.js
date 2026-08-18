@@ -28,8 +28,6 @@ export const expensesSlice = createSlice({
                 }
             });
 
-            console.log(expenseIndex);
-
             state.expenses[expenseIndex].name = action.payload.name,
             state.expenses[expenseIndex].value = action.payload.value,
             state.expenses[expenseIndex].date = action.payload.date

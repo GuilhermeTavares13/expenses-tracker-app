@@ -1,13 +1,16 @@
 import { useNavigation } from "@react-navigation/native";
 import { useLayoutEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList, Modal } from 'react-native';
-import IconButton from "../components/IconButton";
-import { getExpensesTotal, getExpenses } from "../utils/utilities";
-import ResultContainer from "../components/ResultContainer";
-import ListItem from "../components/ListItem";
-import AddModal from './AddModal';
+import { View, Text, FlatList } from 'react-native';
+import IconButton from "../../components/IconButton";
+import { getExpensesTotal, getExpenses } from "../../utils/utilities";
+import ResultContainer from "../../components/Result";
+import ListItem from "../../components/ListItem";
+import AddExpense from '../AddExpense';
+import ModalItem from "../../components/ModalItem";
+import { styles } from "./styles";
+import { colors } from "../../utils/colors";
 
-function AllExpensesScreen() {
+function AllExpenses() {
     const [modalVisible, setModalVisible] = useState(false);
     const navigation = useNavigation();
     const allExpenses = getExpenses();
@@ -23,7 +26,7 @@ function AllExpensesScreen() {
                 )
             },
             headerStyle: {
-                backgroundColor: '#3518B7',
+                backgroundColor: colors.lightBlue,
             },
             headerTintColor: 'white',
         })
@@ -43,21 +46,12 @@ function AllExpensesScreen() {
                 />
             </View>
 
-            <Modal visible={modalVisible} >
-                <AddModal onModal={setModalVisible}/>
-            </Modal>
+            <ModalItem visible={modalVisible} >
+                <AddExpense onModal={setModalVisible}/>
+            </ModalItem>
         </> 
     );
 }
 
-export default AllExpensesScreen;
+export default AllExpenses;
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#27127B'
-    },
-    headerRightButton: {
-        marginHorizontal: 30
-    }
-});

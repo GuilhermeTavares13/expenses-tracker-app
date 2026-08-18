@@ -3,17 +3,18 @@ import { StyleSheet, Text, View, Modal } from 'react-native';
 import { createStaticNavigation, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator, createBottomTabScreen } from '@react-navigation/bottom-tabs';
-import RecentExpensesScreen from './screens/RecentExpensesScreen';
-import AllExpensesScreen from './screens/AllExpensesScreen';
+import RecentExpensesScreen from './screens/RecentExpenses/index';
+import AllExpenses from './screens/AllExpenses';
 import IconButton from './components/IconButton';
 import { Provider } from 'react-redux';
 import store from './store/store';
+import { colors } from './utils/colors';
 
 const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator({
   screenOptions: {
     tabBarStyle: {
-      backgroundColor: '#3518B7'
+      backgroundColor: colors.lightBlue
     },
     tabBarLabelStyle: {
       color: 'white'
@@ -27,17 +28,17 @@ const BottomTab = createBottomTabNavigator({
         tabBarIcon: () => {
           return <IconButton icon="hourglass" color="white" />
         },
-        tabBarActiveBackgroundColor: '#F0BA2B'
+        tabBarActiveBackgroundColor: colors.activeTab
       },
     }),
     AllExpenses: createBottomTabScreen({
-      screen: AllExpensesScreen,
+      screen: AllExpenses,
       options: {
         title: 'All Expenses',
         tabBarIcon: () => {
           return <IconButton icon="calendar" color="white" />
         },
-        tabBarActiveBackgroundColor: '#F0BA2B'
+        tabBarActiveBackgroundColor: colors.activeTab
       }
     }),
   },

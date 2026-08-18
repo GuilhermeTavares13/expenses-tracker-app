@@ -1,9 +1,10 @@
 import { View, Text, StyleSheet } from 'react-native';
+import { formatDecimal } from '../utils/utilities';
+import { colors } from '../utils/colors';
 
 function ResultContainer({ title, value }) {
 
-
-    const formattedValue = parseFloat(value).toFixed(2);
+    const itemValue = formatDecimal(value, 2);
 
     return(
         <View style={styles.container}>
@@ -11,7 +12,7 @@ function ResultContainer({ title, value }) {
                 <Text style={styles.innerText}>{title}</Text>
             </View>
             <View style={styles.valueContainer}>
-                <Text style={styles.valueText}>{formattedValue}</Text>
+                <Text style={styles.valueText}>{itemValue}</Text>
             </View>
         </View>
     );
@@ -21,7 +22,7 @@ export default ResultContainer;
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#e4dafe',
+        backgroundColor: colors.lightGrey,
         margin: 10,
         elevation: 5,
         borderRadius: 10,
@@ -30,10 +31,10 @@ const styles = StyleSheet.create({
         padding: 10
     },
     innerText: {
-        color: '#3518B7'
+        color: colors.lightBlue
     },
     valueText: {
-        color: '#27127B'
+        color: colors.darkBlue
     },
     valueContainer: {
         backgroundColor: 'white',

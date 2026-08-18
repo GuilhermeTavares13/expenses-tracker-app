@@ -1,13 +1,13 @@
-import { View, Text, StyleSheet, Pressable, TextInput } from "react-native";
-import { editExpenses, deleteExpense } from "../expenses/expensesSlice";
+import { View, Text, Pressable, TextInput } from "react-native";
+import { editExpenses, deleteExpense } from "../../expenses/expensesSlice";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import moment from "moment";
-import IconButton from "../components/IconButton";
+import IconButton from "../../components/IconButton";
+import { formatDateToUnix, formatShortDate } from "../../utils/utilities";
+import { styles } from "./styles";
 
-
-function EditModal({ id, aName, value, date, onModal }) {
+function EditExpense({ id, aName, value, date, onModal }) {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [name, setName] = useState(aName);
     const [expenseValue, setExpenseValue] = useState(value);
@@ -44,7 +44,7 @@ function EditModal({ id, aName, value, date, onModal }) {
     };
 
     const handleConfirmDate = (date) => {
-        setPickedDate(moment(date).valueOf());
+        setPickedDate(formatDateToUnix(date));
         hideDatePicker();
     }
 
@@ -68,7 +68,7 @@ function EditModal({ id, aName, value, date, onModal }) {
                             <Text style={styles.text}>Date:</Text>
                             <View style={styles.dateBtn}>
                                 <Pressable onPress={() => setDatePickerVisibility(true)}>
-                                    <Text style={styles.dateBtnText}>{moment(pickedDate).format('L')}</Text>
+                                    <Text style={styles.dateBtnText}>{formatShortDate(pickedDate)}</Text>
                                 </Pressable>
                             </View>
                         </View>
@@ -96,70 +96,5 @@ function EditModal({ id, aName, value, date, onModal }) {
     )
 }
 
-export default EditModal;
+export default EditExpense;
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        elevation: 4,
-        backgroundColor:'#27127B'
-    },
-    header: {
-        height: 50,
-        backgroundColor: '#3518b7',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    headerText: {
-        color: 'white',
-        fontWeight: 'bold'
-    },
-    buttonsContainer: {
-        marginTop: 20,
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        alignItems: 'center'
-    },
-    text: {
-        color: 'white'
-    },
-    addButton: {
-        backgroundColor: '#3518b7',
-        paddingHorizontal: 20,
-        paddingVertical: 5,
-        borderRadius: 3,
-        elevation: 3
-    },
-    expense: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        margin: 10
-    },
-    textInput: {
-        backgroundColor: '#ddd',
-        width: 200,
-        borderRadius: 5,
-        marginHorizontal: 10,
-        
-    },
-    expenseContainer: {
-        alignItems: 'center'
-    },
-    dateContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1
-    },
-    dateBtn: {
-        elevation: 5,
-        overflow: 'hidden',
-        padding: 10,
-        backgroundColor: '#3518b7',
-        margin: 10
-    },
-    dateBtnText: {
-        color: 'white'
-    }
-});

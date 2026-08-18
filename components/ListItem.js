@@ -1,11 +1,13 @@
-import { View, Text, StyleSheet, Pressable, Modal } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useState } from 'react';
-import EditModal from '../screens/EditModal';
+import EditExpense from '../screens/EditExpense';
 import { useSelector } from 'react-redux';
+import { formatDecimal } from '../utils/utilities';
+import ModalItem from './ModalItem';
+import { colors } from '../utils/colors';
 
 function ListItem({id, name, value, date}) {
     const [modalVisible, setModalVisible] = useState(false);
-    const formattedValue = parseFloat(value).toFixed(2);
     const expenses = useSelector((state) => state.expenses.expenses);
     const aExpense = expenses.filter((expense) => expense.id == id);
     const unparsedDate = aExpense[0].date;
@@ -13,6 +15,8 @@ function ListItem({id, name, value, date}) {
     const handlePress = () => {
         setModalVisible(true);
     }
+
+    const itemValue = formatDecimal(value, 2);
 
     return(
         <>
@@ -23,16 +27,20 @@ function ListItem({id, name, value, date}) {
                         <Text style={styles.innerText}>{date}</Text>
                     </View>
                     <View style={styles.valueContainer}>
-                        <Text style={styles.valueText}>{formattedValue}</Text>
+                        <Text style={styles.valueText}>{itemValue}</Text>
                     </View>
                 </View>
             </Pressable>
 
-             <Modal visible={modalVisible} >
-                <EditModal id={id} aName={name} value={value} 
-                date={unparsedDate} 
-                onModal={setModalVisible}/>
-            </Modal>
+             <ModalItem visible={modalVisible}>
+                <EditExpense 
+                    id={id} 
+                    aName={name} 
+                    value={itemValue} 
+                    date={unparsedDate} 
+                    onModal={setModalVisible}
+                />
+            </ModalItem>
         </>
     );
 }
@@ -41,7 +49,7 @@ export default ListItem;
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#3518B7',
+        backgroundColor: colors.lightBlue,
         margin: 10,
         elevation: 5,
         borderRadius: 10,
@@ -53,7 +61,7 @@ const styles = StyleSheet.create({
         color: 'white'
     },
     valueText: {
-        color: '#27127B'
+        color: colors.darkBlue
     },
     valueContainer: {
         backgroundColor: 'white',

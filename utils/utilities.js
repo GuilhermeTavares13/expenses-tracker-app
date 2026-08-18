@@ -18,14 +18,13 @@ export function getRecentExpenses() {
     const recentExpenses = [];
 
     expenses.forEach((expense) => {
-        const isRecent = moment(expense.date) >= moment().subtract(7,'days');
-        
+        const isRecent = getIsRecent(expense.date, 7);     
         if (isRecent) {
             recentExpenses.push({
                 id: expense.id,
                 name: expense.name,
                 value: expense.value,
-                date: moment(expense.date).format('L')
+                date: formatShortDate(expense.date)
             });
         }
     })
@@ -42,9 +41,42 @@ export function getExpenses() {
             id: expense.id,
             name: expense.name,
             value: expense.value,
-            date: moment(expense.date).format('L')
+            date: formatShortDate(expense.date)
         })
     })
 
     return formattedExpenses;
+}
+
+export function formatDecimal(value, places) {
+    return parseFloat(value).toFixed(places);
+}
+
+export function formatDateToUnix(date) {
+    return moment(date).valueOf();
+}
+
+export function formatShortDate(date) {
+    // Returns mm/dd/yyyy
+    return moment(date).format('L');
+}
+
+export function compareDates(initialDate, endDate) {
+    // If true initialDate is after endDate
+    initialDate = formatDateToUnix(initialDate);
+    endDate = formatDateToUnix(endDate);
+    return endDate >= initialDate;
+}
+
+export function getSubtractedDate(date, days) {
+    return moment(date).subtract(days,'days'); 
+}
+
+export function getToday() {
+    return moment();
+}
+
+export function getIsRecent(date, days) {
+    const subtractedDate = getSubtractedDate(getToday(), days);
+    return compareDates(subtractedDate, date)
 }
